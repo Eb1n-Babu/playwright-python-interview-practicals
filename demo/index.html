@@ -3,6 +3,7 @@ body{font:16px Arial,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;
 </style></head><body>
 <header><h1>Playwright Practice Shop</h1><a href="/products.html">Products</a></header>
 <section aria-label="Profile"><h2>Profile</h2><label>Name <input id="name" name="name"></label><label>Email <input id="email" name="email" type="email" placeholder="Enter email"></label><label><input type="radio" name="gender" value="x">Other</label><label><input type="checkbox" id="terms">Accept terms</label><label>City <select id="city"><option value="">Choose</option><option value="kochi">Kochi</option><option value="delhi">Delhi</option></select></label><label>Skills <select id="skills" multiple><option value="py">Python</option><option value="pw">Playwright</option><option value="qa">QA</option></select></label><button id="save" data-testid="save-button" title="Save profile">Save</button><p id="saved" role="status"></p></section>
+<div><button role="combobox" aria-label="Custom color" id="custom-color">Choose color</button><div id="custom-options" role="listbox" hidden><button role="option">Blue</button><button role="option">Green</button></div><input id="city-suggest" aria-label="City suggestion"><div id="city-suggestions" role="listbox" hidden><button role="option">Kochi</button><button role="option">Kolkata</button></div></div>
 <button aria-label="Help centre">?</button><img alt="Company logo" title="Brand mark" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
 <div id="menu">Menu<div id="submenu"><a href="#submenu-result">Submenu item</a></div></div><button id="dbl">Open</button><button id="right">Options</button><input id="search" aria-label="Search"><div draggable="true" id="source">Drag me</div><div id="drop-target">Drop here</div>
 <button id="load">Load</button><div id="result"></div><button disabled>Disabled</button><div id="later" hidden>Later</div><a id="dash" href="/dashboard.html">Dashboard link</a><p id="dialog-output"></p>
@@ -13,6 +14,10 @@ body{font:16px Arial,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;
 <div id="products"><article class="card" data-testid="product"><h3>Phone</h3><button>Add to cart</button></article><article class="card" data-testid="product"><h3>Laptop</h3><button>Add to cart</button></article></div><span id="cart-count">0</span><input placeholder="Search products"><button id="product-search">Search</button><div id="order-status"></div>
 <script>
 document.querySelector('#save').onclick=()=>document.querySelector('#saved').textContent='Saved';
+document.querySelector('#custom-color').onclick=()=>document.querySelector('#custom-options').hidden=false;
+document.querySelectorAll('#custom-options [role=option]').forEach(o=>o.onclick=()=>{document.querySelector('#custom-color').textContent=o.textContent;document.querySelector('#custom-options').hidden=true});
+document.querySelector('#city-suggest').oninput=e=>{document.querySelector('#city-suggestions').hidden=!e.target.value.toLowerCase().startsWith('ko')};
+document.querySelectorAll('#city-suggestions [role=option]').forEach(o=>o.onclick=()=>{document.querySelector('#city-suggest').value=o.textContent;document.querySelector('#city-suggestions').hidden=true});
 document.querySelector('#load').onclick=()=>setTimeout(()=>document.querySelector('#result').textContent='Loaded',80);
 document.querySelector('#dash').onclick=e=>{e.preventDefault();history.pushState({},'', '/dashboard.html');document.querySelector('h1').textContent='Dashboard'};
 document.querySelector('#popup').onclick=()=>window.open('/popup.html','practice-popup','width=400,height=300');
