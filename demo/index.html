@@ -1,0 +1,25 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><title>Playwright Practice Shop</title><meta name="viewport" content="width=device-width, initial-scale=1"><style>
+body{font:16px Arial,sans-serif;max-width:900px;margin:2rem auto;padding:0 1rem;color:#172033}button,a{margin:.25rem;padding:.45rem} .card{border:1px solid #aaa;padding:1rem;margin:.5rem;display:inline-block} .card[hidden]{display:none} #submenu{display:none} #menu:hover #submenu{display:block} #drop-target{border:1px dashed;padding:1rem;min-height:2rem} .hidden{display:none}
+</style></head><body>
+<header><h1>Playwright Practice Shop</h1><a href="/products.html">Products</a></header>
+<section aria-label="Profile"><h2>Profile</h2><label>Name <input id="name" name="name"></label><label>Email <input id="email" name="email" type="email" placeholder="Enter email"></label><label><input type="radio" name="gender" value="x">Other</label><label><input type="checkbox" id="terms">Accept terms</label><label>City <select id="city"><option value="">Choose</option><option value="kochi">Kochi</option><option value="delhi">Delhi</option></select></label><label>Skills <select id="skills" multiple><option value="py">Python</option><option value="pw">Playwright</option><option value="qa">QA</option></select></label><button id="save" data-testid="save-button" title="Save profile">Save</button><p id="saved" role="status"></p></section>
+<button aria-label="Help centre">?</button><img alt="Company logo" title="Brand mark" src="data:image/gif;base64,R0lGODlhAQABAAD/ACwAAAAAAQABAAACADs=">
+<div id="menu">Menu<div id="submenu"><a href="#submenu-result">Submenu item</a></div></div><button id="dbl">Open</button><button id="right">Options</button><input id="search" aria-label="Search"><div draggable="true" id="source">Drag me</div><div id="drop-target">Drop here</div>
+<button id="load">Load</button><div id="result"></div><button disabled>Disabled</button><div id="later" hidden>Later</div><a id="dash" href="/dashboard.html">Dashboard link</a><p id="dialog-output"></p>
+<iframe title="Practice frame" srcdoc="<label>Inside frame <input></label>"></iframe><a target="_blank" href="/popup.html">Open tab</a><button id="popup">Open popup</button>
+<table><thead><tr><th>Name</th><th>Status</th><th>Action</th></tr></thead><tbody><tr><td>Ada</td><td>Active</td><td><button>Edit</button></td></tr><tr><td>Lin</td><td>Inactive</td><td><button>Edit</button></td></tr></tbody></table>
+<input type="file" id="upload"><a href="/sample.txt" download>Download sample</a>
+<button id="login">Login</button><div id="auth-status"></div><form id="register"><label>Username <input name="username" required></label><button>Create account</button></form><div id="registration-status"></div>
+<div id="products"><article class="card" data-testid="product"><h3>Phone</h3><button>Add to cart</button></article><article class="card" data-testid="product"><h3>Laptop</h3><button>Add to cart</button></article></div><span id="cart-count">0</span><input placeholder="Search products"><button id="product-search">Search</button><div id="order-status"></div>
+<script>
+document.querySelector('#save').onclick=()=>document.querySelector('#saved').textContent='Saved';
+document.querySelector('#load').onclick=()=>setTimeout(()=>document.querySelector('#result').textContent='Loaded',80);
+document.querySelector('#dash').onclick=e=>{e.preventDefault();history.pushState({},'', '/dashboard.html');document.querySelector('h1').textContent='Dashboard'};
+document.querySelector('#popup').onclick=()=>window.open('/popup.html','practice-popup','width=400,height=300');
+document.querySelector('#source').ondragstart=e=>e.dataTransfer.setData('text/plain','Drag me');
+const target=document.querySelector('#drop-target');target.ondragover=e=>e.preventDefault();target.ondrop=e=>{e.preventDefault();target.textContent=e.dataTransfer.getData('text/plain')};
+document.querySelector('#login').onclick=()=>{localStorage.setItem('auth','yes');document.querySelector('#auth-status').textContent='Welcome back'};
+document.querySelector('#register').onsubmit=e=>{e.preventDefault();document.querySelector('#registration-status').textContent='Account created'};
+document.querySelectorAll('[data-testid=product] button').forEach(b=>b.onclick=()=>document.querySelector('#cart-count').textContent=String(+document.querySelector('#cart-count').textContent+1));
+document.querySelector('#product-search').onclick=()=>{let q=document.querySelector('input[placeholder="Search products"]').value.toLowerCase();document.querySelectorAll('[data-testid=product]').forEach(c=>c.hidden=!c.innerText.toLowerCase().includes(q))};
+</script></body></html>
