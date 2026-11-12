@@ -14,6 +14,11 @@ def test_route_abort_and_server_error(page):
     response = page.evaluate("async () => { const r=await fetch('/api/fail'); return r.status }")
     assert response == 500
 
+def test_abort_request_for_offline_behavior(page):
+    page.route("**/api/offline", lambda route: route.abort())
+    failed = page.evaluate("async () => { try { await fetch('/api/offline'); return false } catch { return true } }")
+    assert failed is True
+
 def test_inspect_post_payload(page):
     received = []
     page.route("**/api/submit", lambda route: (received.append(route.request.post_data_json), route.fulfill(status=201, body="created")))
