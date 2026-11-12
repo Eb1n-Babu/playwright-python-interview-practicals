@@ -22,10 +22,13 @@ pytest -k get_by_role
 pytest -m smoke
 pytest --headed
 pytest -n 2
+pytest --reruns 1 --reruns-delay 1
 pytest --html=playwright-report/report.html --self-contained-html
 ```
 
 `conftest.py` starts and shuts down an ephemeral localhost demo server automatically. Browser tracing and failure screenshots are configured in `pytest.ini`; artifacts go under `test-results/` and are ignored by Git. Install Chromium once with `playwright install chromium` before running tests.
+
+Retries are optional diagnostics for intermittent infrastructure failures; they should not mask product defects.
 
 ## Session map
 
@@ -33,7 +36,7 @@ pytest --html=playwright-report/report.html --self-contained-html
 |---|---|---|
 | 1 | Python, pytest and Playwright fundamentals | Browser, isolated BrowserContexts, Page, assertions |
 | 2 | All important Playwright locators | Role/text/label/placeholder/alt/title/test ID, filters, chaining, CSS and XPath |
-| 3 | Form controls | Text entry, radio, checkbox, native and multiple select, validation |
+| 3 | Form controls | Text entry, radio, checkbox, native and multiple select, custom dropdown, auto-suggest, validation |
 | 4 | Mouse and keyboard actions | Hover, double/right click, keyboard shortcuts, drag and drop |
 | 5 | Waits and assertions | Auto-waiting, locator state, URL and web-first assertions |
 | 6 | Alerts, frames and multiple tabs | Dialogs, iframe, new tab and popup |
@@ -42,8 +45,8 @@ pytest --html=playwright-report/report.html --self-contained-html
 | 9 | Fixtures | Reusable setup and teardown |
 | 10 | Page Object Model | `pages.LoginPage` |
 | 11 | Data-driven testing | pytest parameterize, JSON and CSV |
-| 12 | API testing | Playwright APIRequestContext, status, body and headers |
-| 13 | Network interception and mocking | Fulfill, error response and POST payload inspection |
+| 12 | API testing | Playwright APIRequestContext GET/POST, status, body and headers |
+| 13 | Network interception and mocking | Fulfill, abort, error response and POST payload inspection |
 | 14 | Authentication, cookies and storage state | localStorage persistence and state reuse; generated state is temporary |
 | 15 | Real-world end-to-end scenarios | Registration, search and cart |
 | 16 | Test organization, reports, retries and parallel execution | markers, reports, traces and xdist |

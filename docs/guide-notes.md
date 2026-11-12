@@ -21,6 +21,8 @@ Before actions, Playwright checks attachment, visibility, stability, enabled sta
 
 For local debugging use `pytest --headed`; `page.pause()` is useful during an interactive session. Inspect screenshots and traces before changing waits.
 
+For a diagnostic rerun of intermittent infrastructure failures, the optional pytest-rerunfailures plugin is installed by `requirements.txt`: `pytest --reruns 1 --reruns-delay 1`. Keep retries limited and investigate the original failure; a retry must not hide a real product defect.
+
 ## Git / GitHub interview reminders
 
 Git is distributed version control; GitHub hosts repositories and collaboration. `git add` stages selected changes; `git commit` records the staged snapshot. `git pull` integrates remote changes; `git push` uploads commits. A branch is an independent line of development. `.gitignore` prevents tracking generated files and secrets.
